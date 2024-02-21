@@ -22,6 +22,7 @@ public:
 	 void Translate(const sf::Vector2f& delta);
 	 void Reset() override;
 
+	 sf::FloatRect GetGlobalBounds();
 	 void Update(float dt) override;
 	 void Draw(sf::RenderWindow& window) override;
 

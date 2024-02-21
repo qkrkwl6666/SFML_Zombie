@@ -13,10 +13,8 @@ void SceneGame::Init()
 {
 	AddGo(new TileMap("Background"));
 
-
 	player = new Player("Player");
 	
-
 	AddGo(player);
 
 	Scene::Init();
@@ -64,10 +62,15 @@ void SceneGame::Update(float dt)
 	{
 		ZombieGo::Types zombieType =
 			(ZombieGo::Types)Utils::RandomRange(0, ZombieGo::TotalTypes);
+
 		ZombieGo* zombie = ZombieGo::Create(zombieType);
+
 		zombie->Init();
+
 		zombie->Reset();
+
 		zombie->SetPosition(Utils::RandomInUnitCircle() * 500.f);
+
 		AddGo(zombie);
 	}
 }

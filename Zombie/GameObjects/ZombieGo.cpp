@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "ZombieGo.h"
 #include "Player.h"
+#include "Scene.h"
+
+// 플레이어에 접근한 좀비 삭제
 
 ZombieGo* ZombieGo::Create(Types zombieType)
 {
@@ -69,9 +72,25 @@ void ZombieGo::Update(float dt)
 
 	SetRotation(Utils::Angle(direction));
 
+	//충돌처리
+
+	ZombieDied();
+
 }
 
 void ZombieGo::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+}
+
+void ZombieGo::ZombieDied()
+{
+	sf::FloatRect playerBounds = player->GetGlobalBounds();
+	sf::FloatRect zombieBounds = sprite.getGlobalBounds();
+
+	if (playerBounds.intersects(zombieBounds))
+	{
+		isRemove = true;
+		//SCENE_MGR.GetCurrentScene()->RemoveGo((GameObject*)(this));
+	}
 }

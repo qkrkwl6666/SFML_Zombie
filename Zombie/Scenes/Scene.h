@@ -54,6 +54,7 @@ public:
 	virtual GameObject* AddGo(GameObject* obj , Layers layer = Layers::World);
 	virtual void RemoveGo(GameObject* obj);
 
+
 	Scene(const Scene&) = delete;
 	Scene(Scene&&) = delete;
 	Scene& operator=(const Scene&) = delete;

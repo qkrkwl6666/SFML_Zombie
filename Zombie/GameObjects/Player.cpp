@@ -13,7 +13,6 @@ void Player::Init()
 	InputMgr::Init();
 	SetTexture("graphics/player.png");
 	SetOrigin(Origins::MC);
-
 }
 
 void Player::Release()
@@ -32,6 +31,11 @@ void Player::Reset()
 	SpriteGo::Reset();
 }
 
+sf::FloatRect Player::GetGlobalBounds()
+{
+	return sprite.getGlobalBounds();
+}
+
 void Player::Update(float dt)
 {
 	//InputMgr::Clear();
@@ -42,8 +46,8 @@ void Player::Update(float dt)
 
 	float h = InputMgr::GetAxis(Axis::Horizontal);
 	float v = InputMgr::GetAxis(Axis::Vertical);
+
 	// View && Renderwindow « ø‰«‘ 
-	
 	direction.x = h;
 	direction.y = v;
 

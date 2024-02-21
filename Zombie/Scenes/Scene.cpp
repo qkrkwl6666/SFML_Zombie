@@ -73,6 +73,26 @@ void Scene::Enter()
 
 void Scene::Update(float dt)
 {
+	auto it = gameObjects.begin();
+
+	while (it != gameObjects.end())
+	{
+		GameObject* obj = *it;
+		if (obj->GetActive())
+		{
+			obj->Update(dt);
+		}
+
+		if (obj->isRemove)
+		{
+			it = gameObjects.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+
 	for (auto obj : gameObjects)
 	{
 		if (obj->GetActive())
@@ -80,6 +100,8 @@ void Scene::Update(float dt)
 			obj->Update(dt);
 		}
 	}
+
+	
 
 	for (auto obj : uiGameObjects)
 	{

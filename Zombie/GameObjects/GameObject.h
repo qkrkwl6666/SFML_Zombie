@@ -15,6 +15,8 @@ protected:
 	bool isFlipY = false;
 
 public:
+	bool isRemove = false;
+
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();
 	//PrimitiveType type, std::size_t vertexCount = 0

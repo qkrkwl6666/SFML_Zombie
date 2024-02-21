@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 class Player;
+class Scene;
 
 class ZombieGo : public SpriteGo
 {
@@ -25,6 +26,7 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+	void ZombieDied();
 
 
 protected:
