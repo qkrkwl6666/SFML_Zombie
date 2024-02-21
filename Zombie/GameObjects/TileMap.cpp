@@ -54,8 +54,8 @@ void TileMap::Set(const sf::Vector2i& count,const sf::Vector2f& size)
 		}
 	}
 	bounds = va.getBounds();
-
 }
+
 
 void TileMap::SetOrigin(Origins preset)
 {
