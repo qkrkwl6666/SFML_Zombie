@@ -9,6 +9,7 @@ protected:
 	sf::Vector2f origin = { 0.f, 0.f };
 	sf::Vector2f position = { 0.f, 0.f };
 	sf::Vector2f scale = { 1.f, 1.f };
+	float rotation = 0.f; // degree
 
 	bool isFlipX = false;
 	bool isFlipY = false;
@@ -16,10 +17,24 @@ protected:
 public:
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();
+	//PrimitiveType type, std::size_t vertexCount = 0
 
 	bool GetActive() const { return active; }
 	virtual void SetActive(bool active) { this->active = active; }
+	virtual void Translate(const sf::Vector2f& delta)
+	{
+		position += delta;
+	}
 
+	virtual float GetRotation()
+	{
+		return rotation;
+	}
+
+	virtual void SetRotation(float r)
+	{
+		rotation = r;
+	}
 	sf::Vector2f GetOrigin() const { return origin; }
 
 	virtual void SetOrigin(Origins preset);

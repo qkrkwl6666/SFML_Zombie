@@ -17,6 +17,8 @@ public:
 	void SetScale(const sf::Vector2f& scale) override;
 	void SetFlipX(bool filp) override;
 	void SetFlipY(bool filp) override;
+	void SetRotation(float r) override;
+	void Translate(const sf::Vector2f& delta) override;
 
 	void Reset() override;
 

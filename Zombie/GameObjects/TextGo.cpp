@@ -8,8 +8,20 @@ TextGo::TextGo(const std::string& name)
 
 void TextGo::SetString(const std::string& str)
 {
-	text.setString(str);
+	text.setString(str);    
 	SetOrigin(originPreset);
+} 
+
+void TextGo::Translate(const sf::Vector2f& delta)
+{
+	position += delta;
+	text.setPosition(position);
+}
+
+void TextGo::SetRotation(float r)
+{
+	rotation = r;
+	text.setRotation(r);
 }
 
 void TextGo::Set(const sf::Font& texture,

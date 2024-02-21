@@ -15,8 +15,13 @@ public:
 	void SetFont(const std::string& textureId);
 	void SetFont(const sf::Font& texture);
 
+	void Translate(const sf::Vector2f& delta);
+
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetOrigin(Origins preset) override;
+
+	void SetRotation(float r) override;
+
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
 	void SetScale(const sf::Vector2f& scale) override;
 	void SetFlipX(bool filp) override;

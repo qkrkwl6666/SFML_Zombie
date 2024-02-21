@@ -17,7 +17,7 @@ void SpriteGo::SetPosition(const sf::Vector2f& pos)
 {
 	//GameObject::SetPosition(pos);
 	position = pos;
-	sprite.setPosition(pos);
+	sprite.setPosition(position);
 }
 
 void SpriteGo::SetOrigin(Origins preset)
@@ -67,6 +67,18 @@ void SpriteGo::SetFlipY(bool filp)
 
 	isFlipY = filp;
 	SetScale(scale);
+}
+
+void SpriteGo::SetRotation(float r)
+{
+	rotation = r;
+	sprite.setRotation(rotation);
+}
+
+void SpriteGo::Translate(const sf::Vector2f& delta)
+{
+	position += delta;
+	sprite.setPosition(position);
 }
 
 void SpriteGo::Reset()

@@ -21,6 +21,12 @@ void Player::Release()
 	SpriteGo::Release();
 }
 
+void Player::Translate(const sf::Vector2f& delta)
+{
+	position += delta;
+	sprite.setPosition(position);
+}
+
 void Player::Reset()
 {
 	SpriteGo::Reset();
@@ -57,6 +63,8 @@ void Player::Update(float dt)
 		Utils::Nomalize(direction);
 	}
 
+	//Translate(position + direction * speed * dt);
+
 	SetPosition(position + direction * speed * dt);
 
 	//sf::Vector2f pos = sprite.getPosition();
@@ -67,9 +75,8 @@ void Player::Update(float dt)
 
 	look = mouseWorldPos - position;
 	Utils::Nomalize(look);
+	SetRotation(Utils::Angle(look));
 
-	float angle = Utils::Angle(look); 
-	sprite.setRotation(angle);
 }
 
 void Player::Draw(sf::RenderWindow& window)

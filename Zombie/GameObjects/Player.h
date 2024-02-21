@@ -19,7 +19,7 @@ public:
 
 	 void Init() override;
 	 void Release() override;
-
+	 void Translate(const sf::Vector2f& delta);
 	 void Reset() override;
 
 	 void Update(float dt) override;

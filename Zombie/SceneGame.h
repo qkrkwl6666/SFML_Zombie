@@ -7,6 +7,7 @@ class SceneGame : public Scene
 {
 protected:
 	Player* player = nullptr;
+	sf::VertexArray triangle;
 
 public:
 	SceneGame(SceneIds id);

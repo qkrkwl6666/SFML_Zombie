@@ -147,6 +147,7 @@
     <ClCompile Include="GameObjects\GameObject.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
     <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="GameObjects\TileMap.cpp" />
     <ClCompile Include="Zombie.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -177,6 +178,7 @@
     <ClInclude Include="Scenes\SceneDev2.h" />
     <ClInclude Include="GameObjects\SpriteGo.h" />
     <ClInclude Include="GameObjects\TextGo.h" />
+    <ClInclude Include="GameObjects\TileMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
