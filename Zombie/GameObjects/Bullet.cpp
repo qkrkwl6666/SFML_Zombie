@@ -49,8 +49,7 @@ void Bullet::Update(float dt)
 
 void Bullet::FixedUpdate(float dt)
 {
-	std::list<GameObject*> list;
-	sceneGame->FindGoAll("Zombie", list , Scene::Layers::World);
+	auto& list = sceneGame->GetZombieList();
 
 	for (auto zombie : list)
 	{
@@ -63,7 +62,7 @@ void Bullet::FixedUpdate(float dt)
 		{
 			SetActive(false);
 			sceneGame->RemoveGo(this);
-			//zombie->SetActive(false);
+
 			ZombieGo* zombieGo = dynamic_cast<ZombieGo*>(zombie);
 			if (zombieGo)
 			{

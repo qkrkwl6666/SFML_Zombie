@@ -18,16 +18,22 @@ ZombieGo* ZombieGo::Create(Types zombieType)
 			zombie->textureId = "graphics/bloater.png";
 			zombie->maxHp = 40;
 			zombie->speed = 100;
+			zombie->attack = 20;
+			zombie->attackInterval = 1.f;
 			break;
 		case Types::Chase:
 			zombie->textureId = "graphics/chaser.png";
 			zombie->maxHp = 70;
 			zombie->speed = 75;
+			zombie->attack = 40;
+			zombie->attackInterval = 0.5f;
 			break;
 		case Types::Crawler:
 			zombie->textureId = "graphics/crawler.png";
 			zombie->maxHp = 20;
 			zombie->speed = 50;
+			zombie->attack = 50;
+			zombie->attackInterval = 0.25f;
 			break;
 	}
 
@@ -47,6 +53,7 @@ void ZombieGo::Init()
 
 	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
 	hp = maxHp;
+	attackTimer = attackInterval;
 }
 
 void ZombieGo::Release()
@@ -71,6 +78,11 @@ void ZombieGo::Update(float dt)
 	SpriteGo::Update(dt);
 
 	if (!isAlive)
+	{
+		return;
+	}
+
+	if (player == nullptr)
 	{
 		return;
 	}
@@ -111,7 +123,6 @@ void ZombieGo::Update(float dt)
 
 	SetRotation(Utils::Angle(direction));
 
-
 	//충돌처리
 	// Utils::Distance 거리 반환
 	
@@ -125,6 +136,22 @@ void ZombieGo::Update(float dt)
 	//좀비가 플레이어 위치 근처에 갔으면
 	// 거리를 재서 세팅한값보다 낮아지면 방향 off
 
+
+
+}
+
+void ZombieGo::FixedUpdate(float dt)
+{
+	attackTimer += dt;
+
+	if (attackTimer > attackInterval)
+	{
+		if (GetGlobalBounds().intersects(player->GetGlobalBounds()))
+		{
+			player->OnDamage(attack);
+			attackTimer = 0.f;
+		}
+	}
 
 
 }
@@ -144,6 +171,11 @@ void ZombieGo::ZombieDied()
 		isRemove = true;
 		//SCENE_MGR.GetCurrentScene()->RemoveGo((GameObject*)(this));
 	}
+}
+
+int ZombieGo::GetAttack()
+{
+	return attack;
 }
 
 void ZombieGo::OnDamage(int damage)

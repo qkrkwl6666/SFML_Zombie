@@ -19,8 +19,20 @@ protected:
 	float fireInterval = 0.5f;
 	float fireTimer = 0.f;
 	float bulletSpeed = 1000.f;
-	int bulletDagame = 10;
+	int bulletDagame = 30;
+	float time = 0.f;
+	float timeScale = 1.f;
+	float damageTime = 3.f;
 	SceneGame* sceneGame = nullptr;
+
+	bool isAlive = true;
+	bool isNoDamage = false;
+	float noDamageTime = 5.f;
+	float isDamageTimer = 0.f;
+
+	int maxHp = 100;
+	int currentHp = 100;
+
 
 public:
 	Player(const std::string& name = "");
@@ -36,6 +48,12 @@ public:
 
 	 void FixedUpdate(float dt) override;
 	 void Draw(sf::RenderWindow& window) override;
+
+	 void OnDamage(int damage);
+	 bool isDead();
+
+	 void InDamagePlayer(int damage);
+	 void OnDie();
 
 	 void Fire();
 

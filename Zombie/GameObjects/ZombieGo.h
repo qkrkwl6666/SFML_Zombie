@@ -20,6 +20,9 @@ public:
 	TileMap* tileMap = nullptr;
 	SceneGame* sceneGame = nullptr;
 	bool isAlive = true;
+	int attack = 0;
+	float attackInterval;
+	float attackTimer = 0.f;
 
 public:
 	ZombieGo(const std::string& name = "");
@@ -31,8 +34,10 @@ public:
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
+	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 	void ZombieDied();
+	int GetAttack();
 
 	void OnDamage(int damage);
 	void OnDie();

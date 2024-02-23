@@ -35,6 +35,16 @@ void SceneGame::Init()
 
 	// UI SCORE
 
+	gameOver = new TextGo("GameOver");
+	gameOver->SetOrigin(Origins::MC);
+	gameOver->SetCharacterSize(100);
+	gameOver->SetString("GameOver!");
+	gameOver->SetFont("fonts/zombiecontrol.ttf");
+	gameOver->SetPosition({ 0 , 0 });
+	//gameOver->sortLayer = 10;
+	AddGo(gameOver, Layers::Ui);
+	gameOver->SetActive(false);
+
 	Scene::Init();
 }
 
@@ -60,6 +70,8 @@ void SceneGame::Enter()
 	tileMap->SetOrigin(Origins::MC);
 	player->SetPosition({ 0.f, 0.f });
 
+
+
 	//tileMap->SetRotation(45);
 	//tileMap->SetScale({ 2.5f , 2.5f });
 
@@ -72,9 +84,20 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-	Scene::Update(dt);
+	FindGoAll("Zombie", zombieList, Layers::World);
 
-	worldView.setCenter(player->GetPosition());
+	Scene::Update(dt);
+	
+	if (!playerRemove)
+	{
+		worldView.setCenter(player->GetPosition());
+	}
+	if (playerRemove)
+	{
+		tileMap->sortLayer = 10;
+		ResortGo(tileMap);
+	}
+
 
 	//if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	//{
@@ -121,6 +144,11 @@ void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 	
+}
+
+void SceneGame::SetGameOverActive(bool a)
+{
+	gameOver->SetActive(a);
 }
 
 sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
