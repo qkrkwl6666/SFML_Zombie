@@ -3,6 +3,7 @@
 class Player;
 class Scene;
 class TileMap;
+class SceneGame;
 
 class ZombieGo : public SpriteGo
 {
@@ -17,6 +18,7 @@ public:
 	static ZombieGo* Create(Types zombieType);
 	sf::Vector2f direction;
 	TileMap* tileMap = nullptr;
+	SceneGame* sceneGame = nullptr;
 
 public:
 	ZombieGo(const std::string& name = "");

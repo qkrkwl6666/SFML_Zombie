@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Scene.h"
 #include "TileMap.h"
+#include "SceneGame.h"
 
 // 플레이어에 접근한 좀비 삭제
 
@@ -58,6 +59,8 @@ void ZombieGo::Reset()
 
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()
 		->FindGo("Player"));
+
+	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
 }
 
 void ZombieGo::Update(float dt)
@@ -70,25 +73,31 @@ void ZombieGo::Update(float dt)
 
 	sf::Vector2f pos = position + direction * speed * dt;
 
-	if (tileMap != nullptr)
+	if (sceneGame)
 	{
-		sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
-		sf::Vector2f cellSize = tileMap->GetCellSize();
-
-		tileMapBounds.left += cellSize.x;
-		tileMapBounds.top += cellSize.y;
-
-		tileMapBounds.width -= cellSize.x * 2.f;
-		tileMapBounds.height -= cellSize.y * 2.f;
-
-		pos.x = Utils::Clamp(pos.x, tileMapBounds.left,
-			tileMapBounds.left + tileMapBounds.width);
-
-		pos.y = Utils::Clamp(pos.y, tileMapBounds.top,
-			tileMapBounds.top + tileMapBounds.height);
+		pos = sceneGame->ClampByTileMap(pos);
 	}
 
 	SetPosition(pos);
+
+
+	//if (tileMap != nullptr)
+	//{
+	//	sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
+	//	sf::Vector2f cellSize = tileMap->GetCellSize();
+
+	//	tileMapBounds.left += cellSize.x;
+	//	tileMapBounds.top += cellSize.y;
+
+	//	tileMapBounds.width -= cellSize.x * 2.f;
+	//	tileMapBounds.height -= cellSize.y * 2.f;
+
+	//	pos.x = Utils::Clamp(pos.x, tileMapBounds.left,
+	//		tileMapBounds.left + tileMapBounds.width);
+
+	//	pos.y = Utils::Clamp(pos.y, tileMapBounds.top,
+	//		tileMapBounds.top + tileMapBounds.height);
+	//}
 
 	//Translate(direction * speed * dt);
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "ZombieGo.h"
+
+class SceneGame;
 class TileMap;
 
 class ZombieSpawner : public GameObject
@@ -9,7 +11,7 @@ protected:
 	// 타입 랜덤별로 뽑아서 생성 타입저장 배열
 	std::vector<ZombieGo::Types> zombieTypes; 
 	TileMap* tileMap = nullptr;
-	
+	SceneGame* sceneGame = nullptr;
 	float interval = 1.f; // 좀비 스폰 주기
 	// float intervalMin;
 	// float intervalMax;

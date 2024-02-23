@@ -1,16 +1,21 @@
 #pragma once
 #include "Scene.h"
 
+class TextGo;
 class ZombieSpawner;
 class Player;
+class TileMap;
 
 class SceneGame : public Scene
 {
 protected:
 	Player* player = nullptr;
 	std::vector<ZombieSpawner*> spawners;
+	TileMap* tileMap = nullptr;
 
 	sf::VertexArray triangle;
+	TextGo* score;
+	
 
 public:
 	SceneGame(SceneIds id);
@@ -24,5 +29,7 @@ public:
 
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	sf::Vector2f ClampByTileMap(const sf::Vector2f& point);
 };
 

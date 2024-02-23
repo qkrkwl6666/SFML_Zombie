@@ -29,6 +29,7 @@ public:
 	void SetScale(const sf::Vector2f& scale) override;
 	void SetFlipX(bool filp) override;
 	void SetFlipY(bool filp) override;
+	void SetCharacterSize(int size);
 
 	void Draw(sf::RenderWindow& window) override;
 };

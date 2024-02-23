@@ -275,7 +275,7 @@ GameObject* Scene::AddGo(GameObject* obj , Layers layer)
 		}
 	}
 
-	if (layer == Layers::World)
+	if (layer == Layers::Ui)
 	{
 		if (std::find(uiGameObjects.begin(), uiGameObjects.end(), obj) == uiGameObjects.end())
 		{

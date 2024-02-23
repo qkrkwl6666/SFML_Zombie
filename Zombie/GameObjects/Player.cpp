@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "TileMap.h"
+#include "SceneGame.h"
 
 Player::Player(const std::string& name)
 	: SpriteGo(name)
@@ -30,8 +31,9 @@ void Player::Translate(const sf::Vector2f& delta)
 void Player::Reset()
 {
 	SpriteGo::Reset();
+	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
 
-	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+	//tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
 }
 
 sf::FloatRect Player::GetGlobalBounds()
@@ -61,25 +63,37 @@ void Player::Update(float dt)
 
 	sf::Vector2f pos = position + direction * speed * dt;
 
-	if (tileMap != nullptr)
+	if (sceneGame)
 	{
-		sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
-		sf::Vector2f cellSize = tileMap->GetCellSize();
-
-		tileMapBounds.left += cellSize.x;
-		tileMapBounds.top += cellSize.y;
-
-		tileMapBounds.width -= cellSize.x * 2.f;
-		tileMapBounds.height -= cellSize.y * 2.f;
-
-		pos.x = Utils::Clamp(pos.x , tileMapBounds.left , 
-			tileMapBounds.left + tileMapBounds.width);
-
-		pos.y = Utils::Clamp(pos.y, tileMapBounds.top,
-			tileMapBounds.top + tileMapBounds.height);
+		pos = sceneGame->ClampByTileMap(pos);
 	}
 
 	SetPosition(pos);
+
+	//if (tileMap != nullptr)
+	//{
+	//	//sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
+	//	//sf::Vector2f cellSize = tileMap->GetCellSize();
+
+	///*	tileMapBounds.left += cellSize.x;
+	//	tileMapBounds.top += cellSize.y;
+
+	//	tileMapBounds.width -= cellSize.x * 2.f;
+	//	tileMapBounds.height -= cellSize.y * 2.f;*/
+
+	//	//sf::FloatRect tileMapBounds =
+	//	//	Utils::ResizeRect(tileMap->GetGlobalBounds(), 
+	//	//		tileMap->GetCellSize() * -2.f);
+
+	//	//pos = Utils::Clamp(pos, tileMapBounds);
+
+	//	//pos.x = Utils::Clamp(pos.x , tileMapBounds.left , 
+	//	//	tileMapBounds.left + tileMapBounds.width);
+	//	//pos.y = Utils::Clamp(pos.y, tileMapBounds.top,
+	//	//	tileMapBounds.top + tileMapBounds.height);
+	//}
+
+	//SetPosition(pos);
 
 	look = mouseWorldPos - position;
 	Utils::Nomalize(look);
@@ -90,4 +104,9 @@ void Player::Update(float dt)
 void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+}
+
+void Player::Fire()
+{
+
 }

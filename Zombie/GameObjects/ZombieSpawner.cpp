@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ZombieSpawner.h"
 #include "TileMap.h"
+#include "SceneGame.h"
 
 ZombieSpawner::ZombieSpawner(const std::string& name)
 	: GameObject(name)
@@ -21,7 +22,9 @@ void ZombieSpawner::Release()
 void ZombieSpawner::Reset()
 {
 	GameObject::Reset();
-	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+	//tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+
+	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
 
 	zombieTypes.clear();
 	zombieTypes.push_back(ZombieGo::Types::Bloater);
@@ -50,33 +53,12 @@ void ZombieSpawner::Update(float dt)
 
 		for (int i = 0; i < spawnCount; i++) 
 		{
-			//sf::Vector2f pos = position +
-			//	Utils::RandomInUnitCircle() * radius;
-			sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
-			int randomPos = Utils::RandomRange(0, 4);
-			sf::Vector2f cellSize = tileMap->GetCellSize();
+			sf::Vector2f pos = position + 
+				Utils::RandomInUnitCircle() * radius;
 
-			tileMapBounds.left += cellSize.x;
-			tileMapBounds.top += cellSize.y;
-
-			tileMapBounds.width -= cellSize.x * 2.f;
-			tileMapBounds.height -= cellSize.y * 2.f;
-
-			sf::Vector2f pos = tileMapBounds.getPosition();
-
-			switch (randomPos)
+			if (sceneGame)
 			{
-				case 0:
-					break;
-				case 1:
-					pos += {tileMapBounds.width, 0.f};
-					break;
-				case 2:
-					pos += {0.f , tileMapBounds.height};
-					break;
-				case 3:
-					pos += {tileMapBounds.width , tileMapBounds.height};
-					break;
+				pos = sceneGame->ClampByTileMap(pos);
 			}
 
 			ZombieGo::Types zombieType = zombieTypes
@@ -85,9 +67,38 @@ void ZombieSpawner::Update(float dt)
 			ZombieGo* zombie = ZombieGo::Create(zombieType);
 			zombie->Init();
 			zombie->Reset();
-			zombie->SetPosition(pos); 
+			zombie->SetPosition(pos);
 
 			SCENE_MGR.GetCurrentScene()->AddGo(zombie);
+
+
+			//sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
+			//int randomPos = Utils::RandomRange(0, 4);
+			//sf::Vector2f cellSize = tileMap->GetCellSize();
+			//
+			//tileMapBounds.left += cellSize.x;
+			//tileMapBounds.top += cellSize.y;
+			//
+			//tileMapBounds.width -= cellSize.x * 2.f;
+			//tileMapBounds.height -= cellSize.y * 2.f;
+
+			//sf::Vector2f pos = tileMapBounds.getPosition();
+
+			//switch (randomPos)
+			//{
+			//	case 0:
+			//		pos += {(float)Utils::RandomRange(0, (int)tileMapBounds.width), tileMapBounds.top};
+			//		break;
+			//	case 1:
+			//		pos += {tileMapBounds.width, (float)Utils::RandomRange(0, (int)tileMapBounds.height)};
+			//		break;
+			//	case 2:
+			//		pos += {(float)Utils::RandomRange(0, (int)tileMapBounds.width), tileMapBounds.height};
+			//		break;
+			//	case 3:
+			//		pos += {tileMapBounds.width , (float)Utils::RandomRange(0, (int)tileMapBounds.height)};
+			//		break;
+			//}
 
 		}
 	}

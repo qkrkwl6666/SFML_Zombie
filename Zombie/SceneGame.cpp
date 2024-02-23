@@ -4,6 +4,7 @@
 #include "TileMap.h"
 #include "ZombieGo.h"
 #include "ZombieSpawner.h"
+#include "TextGo.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -25,12 +26,14 @@ void SceneGame::Init()
 	}
 
 	player = new Player("Player");
+	AddGo(player);
 
-	TileMap* tileMap = new TileMap("Background");
+	tileMap = new TileMap("Background");
 	tileMap->sortLayer = -1;
 
-	AddGo(player);
 	AddGo(tileMap);
+
+	// UI SCORE
 
 	Scene::Init();
 }
@@ -108,4 +111,13 @@ void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 	
+}
+
+sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
+{
+
+	sf::FloatRect rect = tileMap->GetGlobalBounds();
+	rect = Utils::ResizeRect(rect , tileMap->GetCellSize() * -2.f);
+	return Utils::Clamp(point , rect);
+
 }

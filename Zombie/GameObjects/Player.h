@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 
+class SceneGame;
 class TileMap;
 class Player : public SpriteGo
 {
@@ -13,8 +14,14 @@ protected:
 	sf::Vector2f ObjectPos = { 0.f , 0.f };
 
 	std::string textureId;
+	bool isFiring = false;
 
-	TileMap* tileMap = nullptr;
+	float fireInterval = 0.5f;
+	float fireTimer = 0.f;
+
+	SceneGame* sceneGame = nullptr;
+
+
 
 public:
 	Player(const std::string& name = "");
@@ -28,6 +35,8 @@ public:
 	 sf::FloatRect GetGlobalBounds();
 	 void Update(float dt) override;
 	 void Draw(sf::RenderWindow& window) override;
+
+	 void Fire();
 
 };
 

@@ -108,9 +108,6 @@ void TileMap::UpdateTransform()
 	transform.rotate(rotation, position.x, position.y);
 	transform.translate(position - origin);
 
-
-
-	
 }
 
 sf::FloatRect TileMap::GetLocalBounds()
