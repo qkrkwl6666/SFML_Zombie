@@ -20,6 +20,9 @@ public:
 	void SetRotation(float r) override;
 	void Translate(const sf::Vector2f& delta) override;
 
+	sf::FloatRect GetLocalBounds() override;
+	sf::FloatRect GetGlobalBounds() override;
+
 	void Reset() override;
 
 	void Draw(sf::RenderWindow& window) override;

@@ -19,12 +19,16 @@ protected:
 	std::list<GameObject*> gameObjects;
 	std::list<GameObject*> uiGameObjects;
 
+	std::list<GameObject*> resortingGameObjects;
+	std::list<GameObject*> removeGameObjects;
+
 	ResourceMgr<sf::Texture>& texResMgr;
 	ResourceMgr<sf::Font>& fontResMgr;
 	ResourceMgr<sf::SoundBuffer>& soundResMgr;
 
 	sf::View worldView;
 	sf::View uiView;
+
 public:
 	Scene(SceneIds id);
 
@@ -52,6 +56,7 @@ public:
 		, Layers layer = Layers::Everything);
 
 	virtual GameObject* AddGo(GameObject* obj , Layers layer = Layers::World);
+	virtual void ResortGo(GameObject* obj);
 	virtual void RemoveGo(GameObject* obj);
 
 

@@ -81,6 +81,16 @@ void SpriteGo::Translate(const sf::Vector2f& delta)
 	sprite.setPosition(position);
 }
 
+sf::FloatRect SpriteGo::GetLocalBounds()
+{
+	return sprite.getLocalBounds();
+}
+
+sf::FloatRect SpriteGo::GetGlobalBounds()
+{
+	return sprite.getGlobalBounds();
+}
+
 void SpriteGo::Reset()
 {
 	sprite.setTexture(RES_MGR_TEXTURE.Get(textureId));

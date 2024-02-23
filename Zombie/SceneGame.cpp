@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "ZombieGo.h"
+#include "ZombieSpawner.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -11,11 +12,25 @@ SceneGame::SceneGame(SceneIds id) : Scene(id)
 
 void SceneGame::Init()
 {
-	AddGo(new TileMap("Background"));
+
+	//AddGo(new TileMap("Background"));
+
+	spawners.push_back(new ZombieSpawner());
+	spawners.push_back(new ZombieSpawner());
+
+	for (auto data : spawners) 
+	{
+		data->SetPosition(Utils::RandomOnUnitCircle() * 250.f);
+		AddGo(data);
+	}
 
 	player = new Player("Player");
-	
+
+	TileMap* tileMap = new TileMap("Background");
+	tileMap->sortLayer = -1;
+
 	AddGo(player);
+	AddGo(tileMap);
 
 	Scene::Init();
 }
@@ -58,20 +73,34 @@ void SceneGame::Update(float dt)
 
 	worldView.setCenter(player->GetPosition());
 
+	//if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+	//{
+	//	ZombieGo::Types zombieType =
+	//		(ZombieGo::Types)Utils::RandomRange(0, ZombieGo::TotalTypes);
+
+	//	ZombieGo* zombie = ZombieGo::Create(zombieType);
+
+	//	zombie->Init();
+
+	//	zombie->Reset();
+
+	//	zombie->SetPosition(Utils::RandomInUnitCircle() * 500.f);
+
+	//	AddGo(zombie);
+	//}
+
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
-		ZombieGo::Types zombieType =
-			(ZombieGo::Types)Utils::RandomRange(0, ZombieGo::TotalTypes);
-
-		ZombieGo* zombie = ZombieGo::Create(zombieType);
-
-		zombie->Init();
-
-		zombie->Reset();
-
-		zombie->SetPosition(Utils::RandomInUnitCircle() * 500.f);
-
-		AddGo(zombie);
+		TileMap* tileMap = dynamic_cast<TileMap*>(FindGo("Background"));
+		if (tileMap->sortLayer == -1)
+		{
+			tileMap->sortLayer = 1;
+		}
+		else
+		{
+			tileMap->sortLayer = -1;
+		}
+		ResortGo(tileMap);
 	}
 }
 

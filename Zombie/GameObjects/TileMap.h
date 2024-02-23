@@ -26,6 +26,12 @@ public:
 	void Translate(const sf::Vector2f& delta);
 	void UpdateTransform();
 
+	sf::FloatRect GetLocalBounds() override;
+	sf::FloatRect GetGlobalBounds() override;
+
+	const sf::Vector2i& GetCellCount() const;
+	const sf::Vector2f& GetCellSize() const;
+
 	void SetSpriteSheetId(const std::string& id);
 
 	void SetPosition(const sf::Vector2f& pos) override;

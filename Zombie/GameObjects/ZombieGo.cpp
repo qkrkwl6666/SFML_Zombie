@@ -2,6 +2,7 @@
 #include "ZombieGo.h"
 #include "Player.h"
 #include "Scene.h"
+#include "TileMap.h"
 
 // 플레이어에 접근한 좀비 삭제
 
@@ -42,6 +43,8 @@ void ZombieGo::Init()
 	SpriteGo::Init();
 	SetTexture(textureId);
 	SetOrigin(Origins::MC);
+
+	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
 }
 
 void ZombieGo::Release()
@@ -61,20 +64,51 @@ void ZombieGo::Update(float dt)
 {
 	SpriteGo::Update(dt);
 
-	sf::Vector2f direction = player->GetPosition() - position;
+	direction = player->GetPosition() - position;
 
 	Utils::Nomalize(direction);
 
-	sf::Vector2f pos = 
-		(position = position + direction * dt * speed);
-	
+	sf::Vector2f pos = position + direction * speed * dt;
+
+	if (tileMap != nullptr)
+	{
+		sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
+		sf::Vector2f cellSize = tileMap->GetCellSize();
+
+		tileMapBounds.left += cellSize.x;
+		tileMapBounds.top += cellSize.y;
+
+		tileMapBounds.width -= cellSize.x * 2.f;
+		tileMapBounds.height -= cellSize.y * 2.f;
+
+		pos.x = Utils::Clamp(pos.x, tileMapBounds.left,
+			tileMapBounds.left + tileMapBounds.width);
+
+		pos.y = Utils::Clamp(pos.y, tileMapBounds.top,
+			tileMapBounds.top + tileMapBounds.height);
+	}
+
 	SetPosition(pos);
+
+	//Translate(direction * speed * dt);
 
 	SetRotation(Utils::Angle(direction));
 
-	//충돌처리
 
-	ZombieDied();
+	//충돌처리
+	// Utils::Distance 거리 반환
+	
+	//if (Utils::Distance(position, player->GetPosition()) < 50.f) 
+	//{
+	//	SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+	//}
+
+	//ZombieDied();
+
+	//좀비가 플레이어 위치 근처에 갔으면
+	// 거리를 재서 세팅한값보다 낮아지면 방향 off
+
+
 
 }
 

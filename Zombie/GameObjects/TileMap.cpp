@@ -103,13 +103,42 @@ void TileMap::UpdateTransform()
 
 	float scaleX = isFlipX ? -scale.x : scale.x;
 	float scaleY = isFlipY ? -scale.y : scale.y;
+
 	transform.scale(scaleX , scaleX , position.x, position.y);
-
 	transform.rotate(rotation, position.x, position.y);
-
 	transform.translate(position - origin);
 
+
+
 	
+}
+
+sf::FloatRect TileMap::GetLocalBounds()
+{
+	sf::FloatRect bounds = va.getBounds();
+
+	// 오리진 좌표 갱신
+	bounds.left = origin.x;
+	bounds.top = origin.y;
+
+	return bounds;
+}
+
+sf::FloatRect TileMap::GetGlobalBounds()
+{
+	sf::FloatRect bounds = va.getBounds();
+
+	return transform.transformRect(bounds);
+}
+
+const sf::Vector2i& TileMap::GetCellCount() const
+{
+	return cellCount;
+}
+
+const sf::Vector2f& TileMap::GetCellSize() const
+{
+	return cellSize;
 }
 
 void TileMap::SetScale(const sf::Vector2f& scale)
@@ -152,11 +181,13 @@ void TileMap::Release()
 void TileMap::Reset()
 {
 	GameObject::Reset();
+
 }
 
 void TileMap::Update(float dt)
 {
 	GameObject::Update(dt);
+
 }
 
 void TileMap::Draw(sf::RenderWindow& window)

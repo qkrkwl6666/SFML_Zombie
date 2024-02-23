@@ -2,6 +2,7 @@
 #include "SpriteGo.h"
 class Player;
 class Scene;
+class TileMap;
 
 class ZombieGo : public SpriteGo
 {
@@ -14,6 +15,8 @@ public:
 	};
 	static const int TotalTypes = 3;
 	static ZombieGo* Create(Types zombieType);
+	sf::Vector2f direction;
+	TileMap* tileMap = nullptr;
 
 public:
 	ZombieGo(const std::string& name = "");

@@ -21,6 +21,33 @@ public:
 	virtual ~GameObject();
 	//PrimitiveType type, std::size_t vertexCount = 0
 
+	static bool CompareDrawOrder(const GameObject& lhs, const GameObject& rhs)
+	{
+		if (lhs.sortLayer != rhs.sortLayer)
+		{
+			return lhs.sortLayer < rhs.sortLayer;
+		}
+		return lhs.sortLayer < rhs.sortOrder;
+	}
+
+	static bool CompareDrawOrder(const GameObject* lhs, const GameObject* rhs)
+	{
+		if (lhs->sortLayer != rhs->sortLayer)
+		{
+			return lhs->sortLayer < rhs->sortLayer;
+		}
+		return lhs->sortLayer < rhs->sortOrder;
+	}
+
+	bool operator<(const GameObject& rhs)
+	{
+		if (sortLayer != rhs.sortLayer)
+		{
+			return sortLayer < rhs.sortLayer;
+		}
+		return sortOrder < rhs.sortOrder;
+	}
+
 	bool GetActive() const { return active; }
 	virtual void SetActive(bool active) { this->active = active; }
 	virtual void Translate(const sf::Vector2f& delta)
@@ -57,6 +84,16 @@ public:
 
 	bool GetFlipY() const { return isFlipY; }
 	virtual void SetFlipY(bool flip) { isFlipY = flip; }
+
+	virtual sf::FloatRect GetLocalBounds()
+	{
+		return sf::FloatRect();
+	}
+
+	virtual sf::FloatRect GetGlobalBounds()
+	{
+		return sf::FloatRect(position , {0.f , 0.f });
+	}
 
 	virtual void Init();
 	virtual void Release();

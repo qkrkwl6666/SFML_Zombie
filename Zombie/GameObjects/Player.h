@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 
+class TileMap;
 class Player : public SpriteGo
 {
 protected:
@@ -12,6 +13,8 @@ protected:
 	sf::Vector2f ObjectPos = { 0.f , 0.f };
 
 	std::string textureId;
+
+	TileMap* tileMap = nullptr;
 
 public:
 	Player(const std::string& name = "");

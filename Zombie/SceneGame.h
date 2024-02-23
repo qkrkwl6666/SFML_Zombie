@@ -1,12 +1,15 @@
 #pragma once
 #include "Scene.h"
 
+class ZombieSpawner;
 class Player;
 
 class SceneGame : public Scene
 {
 protected:
 	Player* player = nullptr;
+	std::vector<ZombieSpawner*> spawners;
+
 	sf::VertexArray triangle;
 
 public:

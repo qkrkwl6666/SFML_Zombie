@@ -15,6 +15,9 @@ public:
 	void SetFont(const std::string& textureId);
 	void SetFont(const sf::Font& texture);
 
+	sf::FloatRect GetLocalBounds() override;
+	sf::FloatRect GetGlobalBounds() override;
+
 	void Translate(const sf::Vector2f& delta);
 
 	void SetPosition(const sf::Vector2f& pos) override;

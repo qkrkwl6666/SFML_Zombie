@@ -45,6 +45,16 @@ void TextGo::SetFont(const sf::Font& font)
 	text.setFont(font);
 }
 
+sf::FloatRect TextGo::GetLocalBounds()
+{
+	return text.getLocalBounds();
+}
+
+sf::FloatRect TextGo::GetGlobalBounds()
+{
+	return text.getGlobalBounds();
+}
+
 void TextGo::SetPosition(const sf::Vector2f& pos)
 {
 	position = pos;
