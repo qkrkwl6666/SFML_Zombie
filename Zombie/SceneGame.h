@@ -28,8 +28,11 @@ public:
 	void Exit() override;
 
 	void Update(float dt) override;
+	void LateUpdate(float dt) override;
+	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
 	sf::Vector2f ClampByTileMap(const sf::Vector2f& point);
+	bool IsInTileMap(const sf::Vector2f& point);
 };
 

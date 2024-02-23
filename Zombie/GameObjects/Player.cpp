@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "SceneGame.h"
+#include "Bullet.h"
 
 Player::Player(const std::string& name)
 	: SpriteGo(name)
@@ -15,6 +16,9 @@ void Player::Init()
 	InputMgr::Init();
 	SetTexture("graphics/player.png");
 	SetOrigin(Origins::MC);
+
+	isFiring = false;
+	fireTimer = fireInterval;
 }
 
 void Player::Release()
@@ -32,7 +36,8 @@ void Player::Reset()
 {
 	SpriteGo::Reset();
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
-
+	isFiring = false;
+	fireTimer = fireInterval;
 	//tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
 }
 
@@ -70,6 +75,24 @@ void Player::Update(float dt)
 
 	SetPosition(pos);
 
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		isFiring = true;
+	}
+
+	if (InputMgr::GetMouseButtonUp(sf::Mouse::Left))
+	{
+		isFiring = false;
+	}
+
+	fireTimer += dt;
+	if (isFiring && fireTimer > fireInterval)
+	{
+		Fire();
+		fireTimer = 0.f;
+	}
+
+
 	//if (tileMap != nullptr)
 	//{
 	//	//sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
@@ -101,6 +124,11 @@ void Player::Update(float dt)
 
 }
 
+void Player::FixedUpdate(float dt)
+{
+	// std::cout << FRAMEWORK.GetTime() << std::endl;
+}
+
 void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
@@ -108,5 +136,12 @@ void Player::Draw(sf::RenderWindow& window)
 
 void Player::Fire()
 {
+	Bullet* bullet = new Bullet();
+	bullet->Init();
+	bullet->Reset();
 
+	bullet->SetPosition(position);
+	bullet->Fire(look, bulletSpeed , bulletDagame);
+
+	sceneGame->AddGo(bullet);
 }

@@ -16,6 +16,9 @@ protected:
 	sf::RenderWindow window;
 	sf::Vector2i windowSize;
 
+	sf::Time fixedDeltaTime;
+	float fixedUpdateTime = 1.f / 50.f; // 1ÃÊ¿¡ 50¹ø
+
 	sf::Clock clock;
 	float timeScale = 1.f;
 

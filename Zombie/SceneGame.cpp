@@ -107,6 +107,16 @@ void SceneGame::Update(float dt)
 	}
 }
 
+void SceneGame::LateUpdate(float dt)
+{
+	Scene::LateUpdate(dt);
+}
+
+void SceneGame::FixedUpdate(float dt)
+{
+	Scene::FixedUpdate(dt);
+}
+
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
@@ -120,4 +130,12 @@ sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 	rect = Utils::ResizeRect(rect , tileMap->GetCellSize() * -2.f);
 	return Utils::Clamp(point , rect);
 
+}
+
+bool SceneGame::IsInTileMap(const sf::Vector2f& point)
+{
+	sf::FloatRect rect = tileMap->GetGlobalBounds();
+	rect = Utils::ResizeRect(rect, tileMap->GetCellSize() * -2.f);
+
+	return rect.contains(point);
 }

@@ -9,7 +9,7 @@
 
 ZombieGo* ZombieGo::Create(Types zombieType)
 {
-	ZombieGo* zombie = new ZombieGo();
+	ZombieGo* zombie = new ZombieGo("Zombie");
 	zombie->type = zombieType;
 
 	switch (zombieType)
@@ -46,6 +46,7 @@ void ZombieGo::Init()
 	SetOrigin(Origins::MC);
 
 	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+	hp = maxHp;
 }
 
 void ZombieGo::Release()
@@ -57,6 +58,8 @@ void ZombieGo::Reset()
 {
 	SpriteGo::Reset();
 
+	hp = maxHp;
+	isAlive = true;
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()
 		->FindGo("Player"));
 
@@ -66,6 +69,11 @@ void ZombieGo::Reset()
 void ZombieGo::Update(float dt)
 {
 	SpriteGo::Update(dt);
+
+	if (!isAlive)
+	{
+		return;
+	}
 
 	direction = player->GetPosition() - position;
 
@@ -136,4 +144,27 @@ void ZombieGo::ZombieDied()
 		isRemove = true;
 		//SCENE_MGR.GetCurrentScene()->RemoveGo((GameObject*)(this));
 	}
+}
+
+void ZombieGo::OnDamage(int damage)
+{
+	if (!isAlive)
+		return;
+
+	hp -= damage;
+	if (hp <= 0)
+	{
+		hp = 0;
+		OnDie();
+	}
+}
+
+void ZombieGo::OnDie()
+{
+	if (!isAlive)
+		return;
+
+	isAlive = false;
+	SetActive(false);
+	sceneGame->RemoveGo(this);
 }

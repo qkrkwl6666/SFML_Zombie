@@ -19,6 +19,7 @@ public:
 	sf::Vector2f direction;
 	TileMap* tileMap = nullptr;
 	SceneGame* sceneGame = nullptr;
+	bool isAlive = true;
 
 public:
 	ZombieGo(const std::string& name = "");
@@ -33,6 +34,8 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 	void ZombieDied();
 
+	void OnDamage(int damage);
+	void OnDie();
 
 protected:
 	Types type;

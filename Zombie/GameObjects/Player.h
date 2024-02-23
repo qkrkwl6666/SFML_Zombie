@@ -14,14 +14,13 @@ protected:
 	sf::Vector2f ObjectPos = { 0.f , 0.f };
 
 	std::string textureId;
-	bool isFiring = false;
 
+	bool isFiring = false;
 	float fireInterval = 0.5f;
 	float fireTimer = 0.f;
-
+	float bulletSpeed = 1000.f;
+	int bulletDagame = 10;
 	SceneGame* sceneGame = nullptr;
-
-
 
 public:
 	Player(const std::string& name = "");
@@ -34,6 +33,8 @@ public:
 
 	 sf::FloatRect GetGlobalBounds();
 	 void Update(float dt) override;
+
+	 void FixedUpdate(float dt) override;
 	 void Draw(sf::RenderWindow& window) override;
 
 	 void Fire();
